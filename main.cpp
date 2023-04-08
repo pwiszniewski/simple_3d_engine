@@ -3,13 +3,14 @@ simple 2d engine in console
 */
 
 #include <iostream>
+#include <conio.h>
 #include <Windows.h>
 
 struct Point2D
 {
 public:
-    short x;
-    short y;
+    short xPos;
+    short yPos;
 };
 
 struct Line2D
@@ -26,42 +27,64 @@ public:
     void DrawPoint(Point2D p)
     {
         // draw point using Windows API
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {p.x, p.y});
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {p.xPos, p.yPos});
         std::cout << "X";        
     }
 
-    void DrawLine(Line2D l)
-    {
-        // draw line
-        std::cout << "Line: " << l.p1.x << ", " << l.p1.y << " to " << l.p2.x << ", " << l.p2.y << std::endl;
-    }
+    // void DrawLine(Line2D l)
+    // {
+    //     // draw line
+    //     std::cout << "Line: " << l.p1.x << ", " << l.p1.y << " to " << l.p2.x << ", " << l.p2.y << std::endl;
+    // }
 };
 
 int main (int argc, char *argv[])
 {
 
     // check C++ version
-    std::cout << "C++ version: " << __cplusplus << std::endl;
+    // std::cout << "C++ version: " << __cplusplus << std::endl;
 
 
-    // Point2D p1;
-    // p1.x = 10;
-    // p1.y = 10;
-
-    // Point2D p2;
-    // p2.x = 20;
-    // p2.y = 20;
+    Point2D p1;
+    p1.xPos = 10;
+    p1.yPos = 10;
 
 
-    // Line2D l1;
-    // l1.p1 = p1;
-    // l1.p2 = p2;
+    Renderer r;
 
-    // Renderer r;
-    // r.DrawPoint(p1);
+    while(true)
+    {
+        r.DrawPoint(p1);
+
+        // char ch = getchar(); this one has to be used with enter
+        char ch = getch();
+        if (ch == 'w')
+        {
+            p1.yPos--;
+        }
+        else if (ch == 's')
+        {
+            p1.yPos++;
+        }
+        else if (ch == 'a')
+        {
+            p1.xPos--;
+        }
+        else if (ch == 'd')
+        {
+            p1.xPos++;
+        }
+        else if (ch == 'q')
+        {
+            break;
+        }
+
+        system("cls");
+
+    }
+    r.DrawPoint(p1);
+    // r.DrawPoint(p2);
     // r.DrawLine(l1);
-
-    // system("pause");
     
     return 0;
 }
