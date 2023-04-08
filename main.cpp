@@ -34,26 +34,74 @@ public:
     void DrawLine(Line2D l)
     {
         // using Bresenham's line algorithm
-        short x0 = l.p1.xPos;
-        short y0 = l.p1.yPos;
-        short x1 = l.p2.xPos;
-        short y1 = l.p2.yPos;
+    
+        // float a = float(l.p2.yPos - l.p1.yPos) / (l.p2.xPos - l.p1.xPos);
+        // float b = l.p1.yPos - a * l.p1.xPos;
 
-        short dx = abs(x1 - x0);
-        short dy = abs(y1 - y0);
-        short sx = x0 < x1 ? 1 : -1;
-        short sy = y0 < y1 ? 1 : -1;
-        short err = dx - dy;
+        // auto func = [=](float x, float y) -> float {return x - a * y - b;};
 
-        while (true)
+        // for (short x = l.p1.xPos - 1; x <= l.p2.xPos - 1; x++)
+        // {
+        //     short y = a * x + b;
+        //         if (func(x+1, y - 0.5) > 0)
+        //         {
+        //             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x+1, y-1});
+        //             std::cout << "o";
+        //         }
+        //         else 
+        //         {
+        //             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x+1, y});
+        //             std::cout << "o";
+        //         // }
+        //     }
+        // }
+        
+
+        // float a = float(l.p2.yPos - l.p1.yPos) / (l.p2.xPos - l.p1.xPos);
+        // float b = l.p1.yPos - a * l.p1.xPos;
+
+        // auto func = [=](float x, float y) -> float {return x - a * y - b;};
+        // short x = l.p1.xPos;
+        // short y = l.p1.yPos;
+
+        // while (x <= l.p2.xPos)
+        // {
+        //     if (func(x+1, y - 0.5) > 0)
+        //     {
+        //         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x+1, y-1});
+        //         std::cout << "o";
+        //     }
+        //     else 
+        //     {
+        //         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x+1, y});
+        //         std::cout << "o";
+        //     }
+        //     x++;
+        //     y = a * x + b;
+        // }
+
+
+        // using DDA algorithm
+        float dx = l.p2.xPos - l.p1.xPos;
+        float dy = l.p2.yPos - l.p1.yPos;
+
+        float steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+
+        float xInc = dx / steps;
+        float yInc = dy / steps;
+
+        float x = l.p1.xPos;
+        float y = l.p1.yPos;
+
+        for (int i = 0; i < steps; i++)
         {
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x0, y0});
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {short(x), short(y)});
             std::cout << "o";
-            if (x0 == x1 && y0 == y1) break;
-            short e2 = 2 * err;
-            if (e2 > -dy) { err -= dy; x0 += sx; }
-
+            x += xInc;
+            y += yInc;
         }
+
+        
     }
 };
 
@@ -70,10 +118,10 @@ int main (int argc, char *argv[])
 
 
     Line2D l1;
-    l1.p1.xPos = 1;
-    l1.p1.yPos = 1;
+    l1.p1.xPos = 0;
+    l1.p1.yPos = 0;
     l1.p2.xPos = 20;
-    l1.p2.yPos = 20;
+    l1.p2.yPos = 10;
 
 
     Renderer r;
@@ -83,10 +131,10 @@ int main (int argc, char *argv[])
 
     r.DrawLine(l1);
 
-    while (true)
-    {
-        /* code */
-    }
+    // while (true)
+    // {
+    //     /* code */
+    // }
     
 
     while(true)
@@ -98,22 +146,22 @@ int main (int argc, char *argv[])
         char ch = getch();
         if (ch == 'w')
         {
-            l1.p1.yPos--;
+            // l1.p1.yPos--;
             l1.p2.yPos--;
         }
         else if (ch == 's')
         {
-            l1.p1.yPos++;
+            // l1.p1.yPos++;
             l1.p2.yPos++;
         }
         else if (ch == 'a')
         {
-            l1.p1.xPos--;
+            // l1.p1.xPos--;
             l1.p2.xPos--;
         }
         else if (ch == 'd')
         {
-            l1.p1.xPos++;
+            // l1.p1.xPos++;
             l1.p2.xPos++;
         }
         else if (ch == 'q')
