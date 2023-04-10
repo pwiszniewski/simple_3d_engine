@@ -8,14 +8,27 @@ simple 2d engine in console
 
 struct Point2D
 {
-public:
     short xPos;
     short yPos;
 };
 
+struct Rect
+{
+    Point2D p1;
+    Point2D p2;
+};
+
+
+struct Triangle
+{
+    Point2D p1;
+    Point2D p2;
+    Point2D p3;
+};
+
+
 struct Line2D
 {
-public:
     Point2D p1;
     Point2D p2;
 };
@@ -29,6 +42,18 @@ public:
         // draw point using Windows API
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {p.xPos, p.yPos});
         std::cout << "X";        
+    }
+
+    void DrawRectangle(Rect rect)
+    {
+        for (short x = rect.p1.xPos; x <= rect.p2.xPos; x++)
+        {
+            for (short y = rect.p1.yPos; y <= rect.p2.yPos; y++)
+            {
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x, y});
+                std::cout << "X";
+            }
+        }                
     }
 
     void DrawLine(Line2D l)
@@ -103,6 +128,13 @@ public:
 
         
     }
+
+        void DrawTriangle(Triangle tr)
+    {
+        DrawLine({tr.p1, tr.p2});
+        DrawLine({tr.p2, tr.p3});
+        DrawLine({tr.p3, tr.p1});
+    }
 };
 
 int main (int argc, char *argv[])
@@ -123,13 +155,27 @@ int main (int argc, char *argv[])
     l1.p2.xPos = 20;
     l1.p2.yPos = 10;
 
+    // Rect obj;
+    // obj.p1.xPos = 0;
+    // obj.p1.yPos = 0;
+    // obj.p2.xPos = 20;
+    // obj.p2.yPos = 10;
+
+    Triangle obj;
+    obj.p1.xPos = 0;
+    obj.p1.yPos = 0;
+    obj.p2.xPos = 5;
+    obj.p2.yPos = 10;
+    obj.p3.xPos = 10;
+    obj.p3.yPos = 5;
+
 
     Renderer r;
 
     short xPos = 0;
     short yPos = 0;
 
-    r.DrawLine(l1);
+    // r.DrawLine(l1);
 
     // while (true)
     // {
@@ -140,29 +186,31 @@ int main (int argc, char *argv[])
     while(true)
     {
         // r.DrawPoint(p1);
-        r.DrawLine(l1);
+        // r.DrawLine(l1);
+        // r.DrawRectangle(obj);
+        r.DrawTriangle(obj);
 
         // char ch = getchar(); this one has to be used with enter
         char ch = getch();
         if (ch == 'w')
         {
             // l1.p1.yPos--;
-            l1.p2.yPos--;
+            obj.p2.yPos--;
         }
         else if (ch == 's')
         {
             // l1.p1.yPos++;
-            l1.p2.yPos++;
+            obj.p2.yPos++;
         }
         else if (ch == 'a')
         {
             // l1.p1.xPos--;
-            l1.p2.xPos--;
+            obj.p2.xPos--;
         }
         else if (ch == 'd')
         {
             // l1.p1.xPos++;
-            l1.p2.xPos++;
+            obj.p2.xPos++;
         }
         else if (ch == 'q')
         {
