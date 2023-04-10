@@ -137,6 +137,21 @@ public:
     }
 };
 
+Triangle rotateTriangle(Triangle tr, float angle)
+{
+    Triangle trNew;
+    trNew.p1.xPos = tr.p1.xPos * cos(angle) - tr.p1.yPos * sin(angle);
+    trNew.p1.yPos = tr.p1.xPos * sin(angle) + tr.p1.yPos * cos(angle);
+
+    trNew.p2.xPos = tr.p2.xPos * cos(angle) - tr.p2.yPos * sin(angle);
+    trNew.p2.yPos = tr.p2.xPos * sin(angle) + tr.p2.yPos * cos(angle);
+
+    trNew.p3.xPos = tr.p3.xPos * cos(angle) - tr.p3.yPos * sin(angle);
+    trNew.p3.yPos = tr.p3.xPos * sin(angle) + tr.p3.yPos * cos(angle);
+
+    return trNew;
+}
+
 int main (int argc, char *argv[])
 {
 
@@ -181,7 +196,6 @@ int main (int argc, char *argv[])
     // {
     //     /* code */
     // }
-    
 
     while(true)
     {
@@ -212,6 +226,15 @@ int main (int argc, char *argv[])
             // l1.p1.xPos++;
             obj.p2.xPos++;
         }
+        else if (ch == 'z')
+        {
+            obj = rotateTriangle(obj, 0.1);
+        }
+        else if (ch == 'x')
+        {
+            obj = rotateTriangle(obj, -0.1);
+        }
+
         else if (ch == 'q')
         {
             break;
